@@ -59,6 +59,7 @@ spec:
     app: dokuwiki
   ports:
   - protocol: TCP
-    port: 9169  # External port exposed to the cluster
+    port: 80  # External port exposed to the cluster
     targetPort: 80  # Port on the pods that the service forwards traffic to (DokuWiki container port)
+    nodePort: 9169
   type: NodePort  # Expose the service on all nodes with a random high-numbered port
