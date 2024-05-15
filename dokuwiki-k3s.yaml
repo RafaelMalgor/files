@@ -53,18 +53,17 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: portainer-ingress
-  namespace: portainer
+  name: dokuwiki-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - http:
       paths:
-      - path: /
+      - path: /wiki
         pathType: Prefix
         backend:
           service:
-            name: portainer
+            name: dokuwiki
             port:
-              number: 9000
+              number: 80
