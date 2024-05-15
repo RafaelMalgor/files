@@ -49,17 +49,22 @@ spec:
           claimName: dokuwiki-pvc
 
 ---
-
-apiVersion: v1
-kind: Service
+# Source: portainer/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: dokuwiki-service  # Choose a descriptive name
+  name: portainer-ingress
+  namespace: portainer
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  selector:
-    app: dokuwiki
-  ports:
-  - protocol: TCP
-    port: 80  # External port exposed to the cluster
-    targetPort: 80  # Port on the pods that the service forwards traffic to (DokuWiki container port)
-    nodePort: 9169
-  type: NodePort  # Expose the service on all nodes with a random high-numbered port
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: portainer
+            port:
+              number: 9000
